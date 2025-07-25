@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import { motion } from 'framer-motion';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -80,6 +81,7 @@ const Header = () => {
   const [cartItems, setCartItems] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartRefreshKey } = useCartRefresh();
+  const navigate = useNavigate();
 
   const fetchCart = async () => {
     if (user) {
@@ -104,7 +106,7 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-3 cursor-pointer group" onClick={() => window.location.href = '/'}>
+            <div className="flex items-center space-x-3 cursor-pointer group" onClick={() => navigate('/')}>
               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <span className="text-blue-600 font-bold text-xl">F</span>
               </div>
@@ -113,19 +115,19 @@ const Header = () => {
               </h1>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <a href="/" className="hover:text-blue-200 transition-all duration-300 font-medium relative group">
+              <Link to="/" className="hover:text-blue-200 transition-all duration-300 font-medium relative group">
                 Home
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-200 transition-all duration-300 group-hover:w-full"></span>
-              </a>
-              <a href="/products" className="hover:text-blue-200 transition-all duration-300 font-medium relative group">
+              </Link>
+              <Link to="/products" className="hover:text-blue-200 transition-all duration-300 font-medium relative group">
                 Products
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-200 transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </Link>
               {user?.role === 'admin' && (
-                <a href="/admin" className="hover:text-blue-200 transition-all duration-300 font-medium relative group">
+                <Link to="/admin" className="hover:text-blue-200 transition-all duration-300 font-medium relative group">
                   Admin Dashboard
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-200 transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               )}
             </nav>
           </div>
@@ -138,7 +140,7 @@ const Header = () => {
                   <span className="font-semibold ml-1">{user.full_name}</span>
                 </div>
                 <div className="relative group">
-                  <a href="/cart" className="flex items-center space-x-2 hover:text-blue-200 transition-all duration-300 transform hover:scale-105">
+                  <Link to="/cart" className="flex items-center space-x-2 hover:text-blue-200 transition-all duration-300 transform hover:scale-105">
                     <div className="relative">
                       <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 8H19" />
@@ -150,11 +152,11 @@ const Header = () => {
                       )}
                     </div>
                     <span className="font-medium">Cart</span>
-                  </a>
+                  </Link>
                 </div>
-                <a href="/orders" className="hover:text-blue-200 transition-all duration-300 font-medium transform hover:scale-105">
+                <Link to="/orders" className="hover:text-blue-200 transition-all duration-300 font-medium transform hover:scale-105">
                   Orders
-                </a>
+                </Link>
                 <button
                   onClick={logout}
                   className="bg-white/10 hover:bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg transition-all duration-300 font-medium border border-white/20 hover:border-white/40 transform hover:scale-105"
@@ -164,12 +166,12 @@ const Header = () => {
               </>
             ) : (
               <>
-                <a href="/login" className="hover:text-blue-200 transition-all duration-300 font-medium transform hover:scale-105">
+                <Link to="/login" className="hover:text-blue-200 transition-all duration-300 font-medium transform hover:scale-105">
                   Login
-                </a>
-                <a href="/register" className="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                </Link>
+                <Link to="/register" className="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
                   Sign Up
-                </a>
+                </Link>
               </>
             )}
           </div>
@@ -258,21 +260,21 @@ const HomePage = () => {
               <span className="font-semibold text-blue-200"> lifestyle products</span>.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a 
-                href="/products" 
+              <Link 
+                to="/products" 
                 className="group bg-white text-blue-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center space-x-2"
               >
                 <span>Shop Now</span>
                 <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
-              </a>
-              <a 
-                href="/products" 
+              </Link>
+              <Link 
+                to="/products" 
                 className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
               >
                 Explore Categories
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -295,7 +297,7 @@ const HomePage = () => {
               <div 
                 key={index} 
                 className="group bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer border border-gray-100 hover:border-blue-200"
-                onClick={() => window.location.href = `/products?category=${encodeURIComponent(category.name)}`}
+                onClick={() => navigate(`/products?category=${encodeURIComponent(category.name)}`)}
                 as={motion.div}
                 whileHover={{ scale: 1.07, boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
                 initial={{ opacity: 0, y: 30 }}
@@ -341,15 +343,15 @@ const HomePage = () => {
           </div>
           
           <div className="text-center mt-16">
-            <a 
-              href="/products" 
+            <Link 
+              to="/products" 
               className="group inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl"
             >
               <span>View All Products</span>
               <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </motion.section>
@@ -653,7 +655,7 @@ const LoginPage = () => {
     try {
       const response = await axios.post(`${API}/auth/login`, formData);
       login(response.data.user, response.data.access_token);
-      window.location.href = '/';
+      navigate('/');
     } catch (error) {
       setError(error.response?.data?.detail || 'Login failed');
     } finally {
@@ -730,9 +732,9 @@ const LoginPage = () => {
           <div className="text-center mt-6">
             <p className="text-gray-600">
               Don't have an account? 
-              <a href="/register" className="text-blue-600 hover:text-blue-700 font-semibold ml-1 hover:underline">
+              <Link to="/register" className="text-blue-600 hover:text-blue-700 font-semibold ml-1 hover:underline">
                 Sign up
-              </a>
+              </Link>
             </p>
           </div>
 
@@ -770,7 +772,7 @@ const RegisterPage = () => {
     try {
       const response = await axios.post(`${API}/auth/register`, formData);
       login(response.data.user, response.data.access_token);
-      window.location.href = '/';
+      navigate('/');
     } catch (error) {
       setError(error.response?.data?.detail || 'Registration failed');
     } finally {
@@ -881,9 +883,9 @@ const RegisterPage = () => {
           <div className="text-center mt-6">
             <p className="text-gray-600">
               Already have an account? 
-              <a href="/login" className="text-blue-600 hover:text-blue-700 font-semibold ml-1 hover:underline">
+              <Link to="/login" className="text-blue-600 hover:text-blue-700 font-semibold ml-1 hover:underline">
                 Sign in
-              </a>
+              </Link>
             </p>
           </div>
         </div>
@@ -931,7 +933,7 @@ const CartPage = () => {
       alert('Your cart is empty');
       return;
     }
-    window.location.href = '/checkout';
+    navigate('/checkout');
   };
 
   if (!user) {
@@ -945,9 +947,9 @@ const CartPage = () => {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Login Required</h2>
           <p className="text-gray-600 mb-6">Please login to view your shopping cart</p>
-          <a href="/login" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+          <Link to="/login" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
             Login Now
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -976,9 +978,9 @@ const CartPage = () => {
             </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Your cart is empty</h2>
             <p className="text-gray-600 mb-8">Discover amazing products and add them to your cart!</p>
-            <a href="/products" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+            <Link to="/products" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
               Start Shopping
-            </a>
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -1056,9 +1058,9 @@ const CartPage = () => {
                 </button>
                 
                 <div className="mt-4 text-center">
-                  <a href="/products" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
+                  <Link to="/products" className="text-blue-600 hover:text-blue-700 font-medium hover:underline">
                     ← Continue Shopping
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -1124,7 +1126,7 @@ const CheckoutPage = () => {
           const verifyResponse = await axios.post(`${API}/orders/verify-payment`, mockPaymentData);
           if (verifyResponse.data.status === 'success') {
             alert('✅ Payment successful! Redirecting to orders...');
-            window.location.href = '/orders';
+            navigate('/orders');
           }
         } catch (error) {
           console.error('Demo payment error:', error);
@@ -1151,9 +1153,9 @@ const CheckoutPage = () => {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Login Required</h2>
           <p className="text-gray-600 mb-6">Please login to proceed with checkout</p>
-          <a href="/login" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+          <Link to="/login" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
             Login Now
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -1174,9 +1176,9 @@ const CheckoutPage = () => {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Cart is Empty</h2>
           <p className="text-gray-600 mb-6">Add some items to your cart before checkout</p>
-          <a href="/products" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+          <Link to="/products" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
             Shop Now
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -1350,9 +1352,9 @@ const OrdersPage = () => {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Login Required</h2>
           <p className="text-gray-600 mb-6">Please login to view your orders</p>
-          <a href="/login" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+          <Link to="/login" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
             Login Now
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -1381,9 +1383,9 @@ const OrdersPage = () => {
             </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">No orders yet</h2>
             <p className="text-gray-600 mb-8">Start shopping to see your orders here!</p>
-            <a href="/products" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+            <Link to="/products" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
               Start Shopping
-            </a>
+            </Link>
           </div>
         ) : (
           <div className="space-y-6">
@@ -1554,9 +1556,9 @@ const AdminPage = () => {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Admin Access Required</h2>
           <p className="text-gray-600 mb-6">Please login as admin to access dashboard</p>
-          <a href="/login" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+          <Link to="/login" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
             Admin Login
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -1573,9 +1575,9 @@ const AdminPage = () => {
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Access Denied</h2>
           <p className="text-gray-600 mb-6">You don't have admin privileges</p>
-          <a href="/" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+          <Link to="/" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
             Go Home
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -1819,6 +1821,7 @@ const useCartRefresh = () => useContext(CartRefreshContext);
 // Main App Component with Enhanced Routing
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handlePopState = () => {
