@@ -84,7 +84,8 @@ const Header = () => {
   const fetchCart = async () => {
     if (user) {
       try {
-        const response = await axios.get(`${API}/cart`);
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+        const response = await axios.get(`${API}/cart`, config);
         setCartItems(response.data.items || []);
       } catch (error) {
         console.error('Error fetching cart:', error);
@@ -382,7 +383,7 @@ const HomePage = () => {
 
 // Enhanced Product Card Component
 const EnhancedProductCard = ({ product }) => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [addingToCart, setAddingToCart] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const { refreshCart } = useCartRefresh(); // custom hook to trigger cart refresh
@@ -392,13 +393,13 @@ const EnhancedProductCard = ({ product }) => {
       alert('Please login to add items to cart');
       return;
     }
-
     setAddingToCart(true);
     try {
+      const config = { headers: { Authorization: `Bearer ${token}` } };
       await axios.post(`${API}/cart/add`, {
         product_id: product._id,
         quantity: 1
-      });
+      }, config);
       if (refreshCart) refreshCart(); // trigger cart update in header
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -893,7 +894,7 @@ const RegisterPage = () => {
 
 // Continue with other enhanced components...
 const CartPage = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [cart, setCart] = useState({ items: [], total: 0 });
   const [loading, setLoading] = useState(true);
 
@@ -905,7 +906,8 @@ const CartPage = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get(`${API}/cart`);
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const response = await axios.get(`${API}/cart`, config);
       setCart(response.data);
     } catch (error) {
       console.error('Error fetching cart:', error);
@@ -916,7 +918,8 @@ const CartPage = () => {
 
   const removeFromCart = async (productId) => {
     try {
-      await axios.delete(`${API}/cart/remove/${productId}`);
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      await axios.delete(`${API}/cart/remove/${productId}`, config);
       fetchCart();
     } catch (error) {
       console.error('Error removing from cart:', error);
@@ -1068,7 +1071,7 @@ const CartPage = () => {
 
 // Enhanced Checkout Page
 const CheckoutPage = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [cart, setCart] = useState({ items: [], total: 0 });
   const [shippingAddress, setShippingAddress] = useState('');
   const [processing, setProcessing] = useState(false);
@@ -1082,7 +1085,8 @@ const CheckoutPage = () => {
 
   const fetchCart = async () => {
     try {
-      const response = await axios.get(`${API}/cart`);
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+      const response = await axios.get(`${API}/cart`, config);
       setCart(response.data);
       if (user.address) {
         setShippingAddress(user.address);
