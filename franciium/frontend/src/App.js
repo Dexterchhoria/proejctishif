@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import { motion } from 'framer-motion';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Routes, Route } from 'react-router-dom';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -1820,47 +1820,22 @@ const useCartRefresh = () => useContext(CartRefreshContext);
 
 // Main App Component with Enhanced Routing
 function App() {
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const handlePopState = () => {
-      setCurrentPath(window.location.pathname);
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  const renderPage = () => {
-    switch (currentPath) {
-      case '/':
-        return <HomePage />;
-      case '/products':
-        return <ProductsPage />;
-      case '/login':
-        return <LoginPage />;
-      case '/register':
-        return <RegisterPage />;
-      case '/cart':
-        return <CartPage />;
-      case '/checkout':
-        return <CheckoutPage />;
-      case '/orders':
-        return <OrdersPage />;
-      case '/admin':
-        return <AdminPage />;
-      default:
-        return <HomePage />;
-    }
-  };
-
   return (
     <CartRefreshProvider>
       <AuthProvider>
         <div className="App">
           <Header />
-          {renderPage()}
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="*" element={<HomePage />} />
+          </Routes>
         </div>
       </AuthProvider>
     </CartRefreshProvider>
