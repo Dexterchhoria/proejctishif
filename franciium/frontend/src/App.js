@@ -207,6 +207,7 @@ const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([fetchProducts(), fetchCategories()]).finally(() => setLoading(false));
