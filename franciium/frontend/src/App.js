@@ -1474,12 +1474,12 @@ const AdminPage = () => {
 
   const fetchAdminData = async () => {
     try {
+      const config = { headers: { Authorization: `Bearer ${token}` } };
       const [statsRes, productsRes, ordersRes] = await Promise.all([
-        axios.get(`${API}/admin/stats`),
-        axios.get(`${API}/products`),
-        axios.get(`${API}/orders/admin/orders`)
+        axios.get(`${API}/admin/stats`, config),
+        axios.get(`${API}/products`, config),
+        axios.get(`${API}/orders/admin/orders`, config)
       ]);
-      
       setStats(statsRes.data);
       setProducts(productsRes.data);
       setOrders(ordersRes.data);
