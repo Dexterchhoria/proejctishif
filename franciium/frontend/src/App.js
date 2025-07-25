@@ -76,7 +76,7 @@ const LoadingSpinner = ({ size = 'md', text = 'Loading...' }) => {
 
 // Enhanced Header Component
 const Header = () => {
-  const { user, logout } = useAuth();
+  const { user, token, logout } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartRefreshKey } = useCartRefresh();
