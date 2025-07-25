@@ -643,7 +643,8 @@ const ProductsPage = () => {
 
 // Enhanced Login Page
 const LoginPage = () => {
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -655,10 +656,18 @@ const LoginPage = () => {
 
     try {
       const response = await axios.post(`${API}/auth/login`, formData);
-      login(response.data.user, response.data.access_token);
-      navigate('/');
+      if (response.data && response.data.access_token) {
+        setError(''); // Clear any previous error
+        login(response.data.user, response.data.access_token);
+        navigate('/');
+      } else {
+        setError('Login failed');
+        logout();
+      }
     } catch (error) {
-      setError(error.response?.data?.detail || 'Login failed');
+      console.log('Login error (full):', error);
+      setError(error.response?.data?.message || error.message || 'Login failed');
+      logout();
     } finally {
       setLoading(false);
     }
@@ -755,6 +764,7 @@ const LoginPage = () => {
 // Enhanced Register Page
 const RegisterPage = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -769,13 +779,16 @@ const RegisterPage = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    console.log('Submitting registration:', formData);
 
     try {
       const response = await axios.post(`${API}/auth/register`, formData);
+      console.log('Registration response:', response);
       login(response.data.user, response.data.access_token);
       navigate('/');
     } catch (error) {
-      setError(error.response?.data?.detail || 'Registration failed');
+      console.log('Registration error (full):', error);
+      setError(error.response?.data?.message || error.message || 'Registration failed');
     } finally {
       setLoading(false);
     }
